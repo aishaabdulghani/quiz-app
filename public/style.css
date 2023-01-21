@@ -1,0 +1,20 @@
+:root {
+    --primaryColor: blue;
+    --lightColor: black;
+}
+
+body {
+    background-color: black;
+}
+
+.backgroundPrimary {
+    background-color: var(--primaryColor);
+}
+
+.backgroundLight {
+    background-color: var(--lightColor);
+}
+
+.txtPrimary {
+    color: var(--primaryColor);
+}

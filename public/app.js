@@ -1,100 +1,112 @@
+var displayQuestion = document.getElementById("displayQuestion");
+var optionParent = document.getElementById("optionParent");
+var currentQuestionNumber = document.getElementById("currentQuestionNumber")
+var totalQuestionNumber = document.getElementById("totalQuestionNumber");
+var quizDisplay = document.getElementById("quizDisplay");
+var resultDisplay = document.getElementById("resultDisplay");
+var percentage = document.getElementById("percentage");
+var indexValue = 0;
+var marks = 0;
+
 var questions = [
     {
-        numb: 1,
-        question: "What does HTML stand for?",
-        answer: "Hyper Text Markup Language",
+        question: "Html Stands For _______________________",
+        options: ["Hyper Text Makeup Language",
+            "html",
+            "Case Cading Style Sheet",
+            "Hypertext markup language"
+        ],
+        correctAns: "Hypertext markup language",
+    },
+    {
+        question: "Css Stands For _______________________",
         options: [
-            "Hyper Text Preprocessor",
+            "Casecading Style Sheet",
+            "Java",
+            "Ram",
+            "Hypertext markup language"
+        ],
+        correctAns: "Casecading Style Sheet",
+    },
+    {
+        question: "Js Stands For _______________________",
+        options: [
+            "Java Style",
+            "Java Script",
+            "Script",
+            "Script Src"
+        ],
+        correctAns: "Java Script",
+    },
+    {
+        question: "Dom Stands For _______________________",
+        options: [
+            "Document Object Model",
+            "html",
+            "Css",
+            "Java"
+        ],
+        correctAns: "Document Object Model",
+    },
+    {
+        question: "Ram Stands For _______________________",
+        options: [
+            "Read Only Memory",
+            "Dom",
+            "Random Acccess Memory",
+            "For Pc"
+        ],
+        correctAns: "Random Acccess Memory",
+    },
+    {
+        question: "Rom Stands For _______________________",
+        options: [
             "Hyper Text Markup Language",
-            "Hyper Text Multiple Language",
-            "Hyper Tool Multi Language",
+            "html",
+            "HTml",
+            "Read Only Memory"
         ],
-    },
-    {
-        numb: 2,
-        question: "What does CSS stand for?",
-        answer: "Cascading Style Sheet",
-        options: [
-            "Common Style Sheet",
-            "Colorful Style Sheet",
-            "Computer Style Sheet",
-            "Cascading Style Sheet",
-        ],
-    },
-    {
-        numb: 3,
-        question: "What does PHP stand for?",
-        answer: "Hypertext Preprocessor",
-        options: [
-            "Hypertext Preprocessor",
-            "Hypertext Programming",
-            "Hypertext Preprogramming",
-            "Hometext Preprocessor",
-        ],
-    },
-    {
-        numb: 4,
-        question: "What does SQL stand for?",
-        answer: "Structured Query Language",
-        options: [
-            "Stylish Question Language",
-            "Stylesheet Query Language",
-            "Statement Question Language",
-            "Structured Query Language",
-        ],
-    },
-    {
-        numb: 5,
-        question: "What does XML stand for?",
-        answer: "eXtensible Markup Language",
-        options: [
-            "eXtensible Markup Language",
-            "eXecutable Multiple Language",
-            "eXTra Multi-Program Language",
-            "eXamine Multiple Language",
-        ],
+        correctAns: "Read Only Memory",
     },
 ];
 
-var question = document.getElementById("question");
-var questionNum = document.getElementById("questionNum");
-var ansParent = document.getElementById("ansParent");
-var indexNum = 0;
-var marks = 0;
-var main = document.getElementById('main')
-
-
 function showQuestion() {
-    question.innerHTML = questions[indexNum].question;
-    questionNum.innerHTML =
-        "Question # " + (indexNum + 1) + "/" + questions.length;
-    ansParent.innerHTML = "";
-    for (var i = 0; i < questions[indexNum].options.length; i++) {
-        ansParent.innerHTML += `<div class="col-md-6 py-2">
-      <button onclick="checkAns ('${questions[indexNum].options[i]}','${questions[indexNum].answer}')" class="btn btn-primary px-5 rounded-pill w-50">
-      ${questions[indexNum].options[i]}
-      </button>
-  </div>`;
+    displayQuestion.innerHTML = questions[indexValue].question;
+    for (var i = 0; i < questions[indexValue].options.length; i++) {
+        var optValue = questions[indexValue].options[i];
+        var corrValue = questions[indexValue].correctAns;
+
+        optionParent.innerHTML +=
+            `<div class="col-md-6 my-3">
+            <button onclick="checkQuestion('${optValue}' , '${corrValue}')" class="btn p-3 w-100 txtPrimary rounded-pill shadow fw-bold d-block" style="background-color: white;">
+            ${questions[indexValue].options[i]}
+            </button>
+        </div>`
     }
+    totalQuestionNumber.innerHTML = questions.length;
+    currentQuestionNumber.innerHTML = indexValue + 1;
 }
 showQuestion();
 
 function nextQuestion() {
-    indexNum++;
-    showQuestion();
-}
+    optionParent.innerHTML = "";
+    if (indexValue + 1 == questions.length) {
+        resultDisplay.style.display = 'block';
+        quizDisplay.style.display = 'none';
 
-function checkAns(a, b) {
-    if (a == b) {
-        marks++;
-    }
-    if (indexNum + 1 == questions.length) {
-        alert("your marks is " + marks)
-        indexNum = 0
-        marks = 0
-        showQuestion()
+        var totalPercentage = (marks / questions.length) * 100;
+        percentage.innerHTML = totalPercentage.toFixed(2);
+
     } else {
-
-        nextQuestion();
+        indexValue++;
+        showQuestion();
     }
 }
+
+function checkQuestion(optionValue, correctValue) {
+    if (optionValue == correctValue) {
+        marks++;
+        console.log(marks);
+    }
+    nextQuestion();
+};
